@@ -47,6 +47,33 @@ TEST(Operators, Power) {
     EXPECT_EQ(result->evaluate(), pow(5, 3));
 }
 
+TEST(FacTest, InvalidInput) {
+    Factory f;
+    char* args[] = {"5", "+", "3", "*"};
+    int count = 2;
+
+    Base* result = f.parse(args, count);
+    EXPECT_EQ(result, nullptr);
+}
+
+TEST(FacTest,DoubleOutput) {
+   Factory f;
+   char* args[] = {"2.1", "-", "3.5"};
+   int count = 3;
+
+   Base* result = f.parse(args, count);
+   EXPECT_NEAR(result->evaluate(), -1.4, 0.1);
+} 
+
+TEST(FacTest,IncorrectPEMDAS) {
+   Factory f;
+   char* args[] = {"3", "+", "2", "*", "6"};
+   int count = 5;
+
+   Base* result = f.parse(args, count);
+   EXPECT_EQ(result->evaluate(), 30);
+}
+
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
