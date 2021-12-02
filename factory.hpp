@@ -2,6 +2,7 @@
 #define __FACTORY_HPP__
 
 #include <iostream>
+#include <stdexcept>
 #include "add.hpp"
 #include "base.hpp"
 #include "div.hpp"
@@ -35,8 +36,13 @@ Base* Factory::parse(char** input, int length) {
     for (int i = 1; i < length; i += 2) {
 	// If left child is null pointer, store previous number in left child pointer
 	if (left == nullptr) {
-	    std::string str_left(input[i - 1]);
-	    left = new Op(stod(str_left));
+	    try {
+		std::string str_left(input[i - 1]);
+                left = new Op(stod(str_left));
+	    }
+	    catch(const std::invalid_argument& ia) {
+		return nullptr;
+	    }
 	}
 	// Otherwise, store root in left child pointer
 	else {
@@ -44,8 +50,13 @@ Base* Factory::parse(char** input, int length) {
 	}
 
 	// Store next number in right child pointer
-	std::string str_right(input[i + 1]);
-	right = new Op(stod(str_right));
+	try {
+	    std::string str_right(input[i + 1]);
+            right = new Op(stod(str_right));
+	}
+	catch(const std::invalid_argument& ia) {
+	    return nullptr;
+	}
 
 	// Check which operator is present
 	if (strcmp(input[i], "+") == 0) {
