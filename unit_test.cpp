@@ -47,6 +47,15 @@ TEST(Operators, Power) {
     EXPECT_EQ(result->evaluate(), pow(5, 3));
 }
 
+TEST(FacTest, PowZero) {
+    Factory f;
+    char* args[] = {"5", "**", "0"};
+    int count = 3;
+
+    Base* result = f.parse(args, count);
+    EXPECT_EQ(result->evaluate(), 1);
+}
+
 TEST(FacTest, InvalidInput) {
     Factory f;
     char* args[] = {"5", "+", "3", "*"};
