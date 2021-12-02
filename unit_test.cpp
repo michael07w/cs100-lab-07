@@ -83,6 +83,42 @@ TEST(FacTest,IncorrectPEMDAS) {
    EXPECT_EQ(result->evaluate(), 30);
 }
 
+TEST(MultOpTest, MultDiv) {
+   Factory f;
+   char* args[] = {"6", "/", "2", "*", "3"};
+   int count = 5;
+
+   Base* result = f.parse(args, count);
+   EXPECT_EQ(result->evaluate(), 9);
+}
+
+TEST(MultOpTest, SubMult) {
+   Factory f;
+   char* args[] = {"3", "-", "2", "*", "6"};
+   int count = 5;
+    
+   Base* result = f.parse(args, count);
+   EXPECT_EQ(result->evaluate(), 6);
+}
+
+TEST(MultOpTest, AddDiv) {
+   Factory f;
+   char* args[] = {"3", "+", "3", "/", "6"};
+   int count = 5;
+    
+   Base* result = f.parse(args, count);
+   EXPECT_EQ(result->evaluate(), 1);
+}
+
+TEST(MultOpTest, AllOp) {
+   Factory f;
+   char* args[] = {"3", "**", "2", "*", "6", "/", "9", "+", "4", "-", "10"};
+   int count = 11;
+    
+   Base* result = f.parse(args, count);
+   EXPECT_EQ(result->evaluate(), 0);
+}
+
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
